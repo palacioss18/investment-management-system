@@ -27,3 +27,20 @@ CREATE TABLE PlazosFijos(
     CONSTRAINT FK_PlazosFijos_Clientes FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente)
 );
 
+
+
+
+
+CREATE TABLE Transacciones(
+	id_transaccion INT IDENTITY(1,1) PRIMARY KEY,
+	id_cliente int not null,
+	tipo varchar(20) not null,
+	monto decimal(18,2) not null,
+	fecha datetime not null default getdate(),
+	CONSTRAINT FK_Transacciones_Clientes FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente)
+);
+
+
+INSERT INTO Transacciones (id_cliente , tipo,monto ) VALUES (1,'DEPOSITO',200.00),
+	(2,'DEPOSITO',100.00),
+	(3,'DEPOSITO',90.00);
