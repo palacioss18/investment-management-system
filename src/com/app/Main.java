@@ -3,6 +3,7 @@ package com.app;
 import com.inversiones.model.Cliente;
 import com.inversiones.model.Inversion;
 import com.inversiones.model.PlazoFijo;
+import com.inversiones.model.FondoComunInversion;
 
 public class Main{
     public static void main (String[] args){
