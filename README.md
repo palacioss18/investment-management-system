@@ -1,12 +1,12 @@
 # 📈 Sistema de Inversiones y Rendimientos Diarios
 
-Sistema backend desarrollado en **C# y SQL Server** diseñado para simular la gestión de inversiones financieras, colocación de plazos fijos, fondos comunes y el cálculo automático de rendimientos diarios.
+Sistema backend desarrollado en **Java y SQL Server** diseñado para simular la gestión de inversiones financieras, colocación de plazos fijos, cuentas remuneradas y cálculo automático de rendimientos diarios.
 
-El objetivo de este proyecto es practicar el desarrollo de arquitectura en capas, lógica financiera en C#, procedimientos almacenados complejas y generación de métricas analíticas mediante SQL Server.
+Este proyecto está enfocado en aplicar desarrollo en capas, manejo preciso de operaciones financieras con `BigDecimal`, integración mediante **JDBC** (consultas parametrizadas y ejecución de Stored Procedures) y control de versiones con Git.
 
 ---
 
-## 🎯 Funcionalidades Principal
+## 🎯 Funcionalidades Principales
 
 ### 💰 Gestión de Plazos Fijos
 * Constituir plazos fijos especificando monto, plazo (días) y Tasa Nominal Anual (TNA).
@@ -14,7 +14,7 @@ El objetivo de este proyecto es practicar el desarrollo de arquitectura en capas
 * Cancelación anticipada y acreditación automática al vencimiento.
 
 ### 📊 Cuentas Remuneradas y Rendimientos Diarios
-* Cálculo y acreditación diaria de intereses sobre saldo disponible.
+* Cálculo y acreditación diaria de intereses sobre saldo disponible mediante Stored Procedures.
 * Historial de rendimientos acumulados por cliente.
 
 ### 📈 Fondos Comunes de Inversión (FCI)
@@ -25,9 +25,9 @@ El objetivo de este proyecto es practicar el desarrollo de arquitectura en capas
 
 ## 🛠️ Tecnologías Utilizadas
 
-* **Lenguaje:** C# (.NET Core / SDK)
+* **Lenguaje:** Java 17+ (Core / SE)
 * **Base de Datos:** SQL Server (T-SQL)
-* **Acceso a Datos:** ADO.NET (Consultas parametrizadas y Stored Procedures)
+* **Acceso a Datos:** JDBC (`PreparedStatement`, `CallableStatement`, `DriverManager`)
 * **Control de Versiones:** Git & GitHub
 
 ---
@@ -35,31 +35,35 @@ El objetivo de este proyecto es practicar el desarrollo de arquitectura en capas
 ## 🗄️ Conceptos Técnicos Aplicados
 
 * **SQL Server & T-SQL:**
-  * Procedimientos Almacenados (*Stored Procedures*) para cierres diarios y acreditación de rendimientos.
-  * Transacciones (`BEGIN TRANSACTION`, `COMMIT`, `ROLLBACK`) para garantizar operaciones ACID.
-  * Funciones de Ventana (`ROW_NUMBER()`, `SUM() OVER(...)`) para reportes e historial financiero.
-  * Manejo defensivo de errores con `TRY...CATCH`.
+  * Procedimientos Almacenados (*Stored Procedures*) para procesos batch de cierres diarios y acreditación de rendimientos.
+  * Transacciones complejas (`BEGIN TRANSACTION`, `COMMIT`, `ROLLBACK`) para asegurar consistencia ACID.
+  * Funciones de Ventana (`ROW_NUMBER()`, `SUM() OVER(...)`) para reportes y extractos consolidados.
+  * Manejo defensivo de errores con bloques `TRY...CATCH`.
 
-* **C# & Backend:**
-  * Programación Orientada a Objetos (POO) y arquitectura modular.
-  * Manejo estricto de tipos decimales para precisión financiera.
-  * Validaciones de reglas de negocio en la capa de servicio.
+* **Java & Backend:**
+  * Programación Orientada a Objetos (POO), encapsulamiento y arquitectura modular por capas.
+  * Manejo de precisión monetaria utilizando `BigDecimal` y `RoundingMode.HALF_UP`.
+  * Patrón de diseño **DAO (Data Access Object)** para desacoplar la base de datos de la lógica de negocio.
+  * Manejo de excepciones personalizadas (`SQLException` wrapper) y gestión de conexiones.
 
 ---
 
-## 📁 Estructura del Proyecto (Prevista)
+## 📁 Estructura del Proyecto
 
 ```text
-Sistema-Inversiones/
+sistema-inversiones/
 │
 ├── README.md
-├── Database/
-│   ├── Schema/                # Tablas, PK/FK y Restricciones
-│   ├── StoredProcedures/      # Lógica de cierre y cálculos
-│   └── Scripts/               # Datos de prueba
+├── database/
+│   ├── schema.sql              # Definición de tablas, PK/FK y constraints
+│   ├── stored_procedures.sql   # SPs para cierres, cálculo TNA y acreditaciones
+│   └── seed_data.sql           # Datos iniciales para pruebas
 │
-└── Source/
-    ├── Entities/              # Modelos de dominio
-    ├── Data/                  # Capa ADO.NET / Repositorios
-    ├── Services/              # Reglas de negocio y lógica de tasas
-    └── ConsoleApp/            # Interfaz de comandos
+└── src/
+    └── com/
+        └── inversiones/
+            ├── config/         # Conexión JDBC (DatabaseConnection.java)
+            ├── model/          # Entidades de dominio (Cliente, PlazoFijo, Cuenta)
+            ├── dao/            # Interfaces e implementaciones JDBC (ClienteDAO, PlazoFijoDAO)
+            ├── service/        # Reglas de negocio y fórmulas de tasas
+            └── app/            # Aplicación de consola / Menú interactivo
