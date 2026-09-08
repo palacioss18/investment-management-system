@@ -1,4 +1,4 @@
-package com.inversiones.app;
+package com.app;
 
 import com.inversiones.model.Cliente;
 import com.inversiones.model.Inversion;
