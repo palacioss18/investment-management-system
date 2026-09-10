@@ -23,14 +23,39 @@ CREATE TABLE Transacciones (
     fecha DATETIME NOT NULL DEFAULT GETDATE(),
     CONSTRAINT FK_Transacciones_Clientes FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente)
 );
+
+CREATE TABLE PlazosFijos (
+    id_plazo_fijo INT IDENTITY(1,1) PRIMARY KEY,
+    id_cliente INT NOT NULL,
+    monto DECIMAL(18,2) NOT NULL,
+    dias INT NOT NULL,
+    tna DECIMAL(5,2) NOT NULL,
+    fecha_creacion DATETIME NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT FK_PlazosFijos_Clientes FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente)
+);
+
 GO
 
--- 4. Insertar los datos
+-- 1. Insertar más clientes de prueba (INSERT)
 INSERT INTO Clientes (nombre, saldo) VALUES 
-    ('mariana', 900.00),
-    ('Carlos', 1000.00),
-    ('sofia', 2000.00),
-    ('lucas', 4500.00);
+('Mariana', 350000.00),
+('Carlos', 50000.00),
+('Sofia', 1200000.00),
+('Lucas', 0.00);
 
+-- 2. Insertar transacciones variadas
 INSERT INTO Transacciones (id_cliente, tipo, monto) VALUES 
-    (1, 'DEPOSITO', 50000.00);
+(1, 'DEPOSITO', 50000.00),
+(1, 'RETIRO', 10000.00),
+(2, 'DEPOSITO', 50000.00),
+(3, 'DEPOSITO', 200000.00),
+(4, 'DEPOSITO', 350000.00),
+(6, 'DEPOSITO', 1200000.00);
+
+-- 3. Cargar varios plazos fijos
+INSERT INTO PlazosFijos (id_cliente, monto, dias, tna) VALUES 
+(1, 30000.00, 30, 38.00),
+(1, 50000.00, 60, 40.00),
+(3, 100000.00, 30, 38.00),
+(4, 250000.00, 90, 42.00),
+(6, 500000.00, 30, 38.00);
