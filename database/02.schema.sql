@@ -49,13 +49,32 @@ INSERT INTO Transacciones (id_cliente, tipo, monto) VALUES
 (1, 'RETIRO', 10000.00),
 (2, 'DEPOSITO', 50000.00),
 (3, 'DEPOSITO', 200000.00),
-(4, 'DEPOSITO', 350000.00),
-(6, 'DEPOSITO', 1200000.00);
+(4, 'DEPOSITO', 350000.00);
 
 -- 3. Cargar varios plazos fijos
 INSERT INTO PlazosFijos (id_cliente, monto, dias, tna) VALUES 
 (1, 30000.00, 30, 38.00),
 (1, 50000.00, 60, 40.00),
 (3, 100000.00, 30, 38.00),
-(4, 250000.00, 90, 42.00),
-(6, 500000.00, 30, 38.00);
+(4, 250000.00, 90, 42.00);
+
+
+
+--EJERCICIOS
+--UPDATE Y DELETE
+--1) AUMENTA UN 10% EL SALDO AL CLIENTE CON ID 1
+UPDATE Clientes SET saldo = saldo * 1.10 where id_cliente = 1;
+
+--2) ELIMINA LAS TRANSACCIONES DEL CLIENTE QUE TIENE SALDO 0
+DELETE FROM Transacciones WHERE id_cliente = 7; 
+
+
+--JOINS
+--3)MOSTRÁ EL NOMBRE DEL CLIENTE JUNTO CON EL MONTO Y LOS DIAS DE SUS PLAZOS FIJOS
+SELECT c.nombre,pf.monto,pf.dias,pf.tna FROM Clientes AS c INNER JOIN PlazosFijos AS pf ON c.id_cliente = pf.id_cliente;
+
+--4)MOSTRÁ TODOS LOS CLIENTES,TENGAN O NO UN PLAZO FIJO CREADO
+SELECT c.nombre,pf.monto,pf.dias,pf.tna FROM Clientes AS c LEFT JOIN PlazosFijos AS pf ON c.id_cliente = pf.id_cliente;
+
+
+--FUNCIONES DE AGRUPACION
